@@ -9,7 +9,7 @@ class CalculatorTest extends WP_UnitTestCase {
 	public function testIsNotArray() {
 		$value = 'hello';
 
-		$this->assertIsArray( $value );
+		$this->assertIsNotArray( $value );
 	}
 
 }

@@ -17,8 +17,8 @@
     "wp-coding-standards/wpcs": "^3.1"
   },
   "scripts": {
-    "cs": "phpcs --standard=phpcs.xml",
-    "cbf": "phpcbf --standard=phpcs.xml --report-summary --report-source",
+    "lint": "phpcs --standard=phpcs.xml",
+    "format": "phpcbf --standard=phpcs.xml",
     "tests": "./vendor/bin/phpunit",
     "tests-with-coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html coverage/",
     "tests-with-result": "./vendor/bin/phpunit --testdox-html tests.html"

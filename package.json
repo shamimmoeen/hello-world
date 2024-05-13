@@ -2,21 +2,37 @@
   "name": "hello-world",
   "version": "0.1.0",
   "main": "Gruntfile.js",
-  "author": "YOUR NAME HERE",
+  "author": "Mainul Hassan Main",
   "scripts": {
     "start": "grunt default",
     "readme": "grunt readme",
     "i18n": "grunt i18n",
-    "js:lint": "eslint public/js/*",
-    "js:lint:fix": "eslint --fix public/js/*",
-    "style:lint": "stylelint public/css/*",
-    "style:lint:fix": "stylelint --fix public/css/*"
+    "lint:php": "./vendor/bin/phpcs --standard=phpcs.xml",
+    "lint:php:fix": "./vendor/bin/phpcbf --standard=phpcs.xml",
+    "lint:js": "eslint public/js/*",
+    "lint:js:fix": "eslint --fix public/js/*",
+    "lint:style": "stylelint public/css/*",
+    "lint:style:fix": "stylelint --fix public/css/*",
+    "prepare": "husky"
   },
+  "lint-staged": {
+		"*.js": [
+			"npm run lint:js"
+		],
+		"*.{css,scss}": [
+			"npm run lint:css"
+		],
+		"*.php": [
+			"npm run lint:php"
+		]
+	},
   "devDependencies": {
     "@wordpress/eslint-plugin": "^18.0.0",
     "@wordpress/stylelint-config": "^21.40.0",
     "grunt": "~0.4.5",
     "grunt-wp-i18n": "~0.5.0",
-    "grunt-wp-readme-to-markdown": "~1.0.0"
+    "grunt-wp-readme-to-markdown": "~1.0.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2"
   }
 }
