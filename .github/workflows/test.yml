@@ -1,0 +1,42 @@
+name: Hello World Plugin CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Check Coding Standards and Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction --optimize-autoloader
+
+      - name: Run PHP_CodeSniffer
+        run: vendor/bin/phpcs --standard=phpcs.xml
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npm run js:lint
+
+      - name: Run Stylelint
+        run: npm run style:lint
+
+      - name: Run PHPUnit Tests
+        run: npm run tests
