@@ -9,20 +9,21 @@ jobs:
     name: Check Coding Standards and Run Tests
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mariadb:latest
+        ports:
+          - '3306:3306'
+        env:
+          MYSQL_ROOT_PASSWORD: wordpress
+          MARIADB_INITDB_SKIP_TZINFO: 1
+          MYSQL_USER: wordpress
+          MYSQL_PASSWORD: wordpress
+          MYSQL_DATABASE: wordpress_test
+
     steps:
-      - name: Checkout code
+      - name: Check out the source code
         uses: actions/checkout@v3
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4'
-
-      - name: Install Composer dependencies
-        run: composer install --no-progress --prefer-dist --no-interaction --optimize-autoloader
-
-      - name: Run PHP_CodeSniffer
-        run: vendor/bin/phpcs --standard=phpcs.xml
 
       - name: Install Node.js and npm
         uses: actions/setup-node@v3
@@ -38,5 +39,28 @@ jobs:
       - name: Run Stylelint
         run: npm run style:lint
 
-      - name: Run PHPUnit Tests
-        run: npm run tests
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction --optimize-autoloader
+
+      - name: Run PHP_CodeSniffer
+        run: composer cs
+
+      - name: Set up WordPress and WordPress Test Library
+        uses: sjinks/setup-wordpress-test-library@master
+        with:
+          version: latest
+
+      - name: Verify MariaDB connection
+        run: |
+          while ! mysqladmin ping -h 127.0.0.1 -P ${{ job.services.mysql.ports[3306] }} --silent; do
+            sleep 1
+          done
+        timeout-minutes: 1
+
+      - name: Run tests
+        run: composer tests

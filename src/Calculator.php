@@ -24,7 +24,15 @@ class Calculator {
 		return $number1 + $number2;
 	}
 
-	public function multiply( $number1, $number2 ) {
+	/**
+	 * Multiple two numbers.
+	 *
+	 * @param float $number1 The first number.
+	 * @param float $number2 The second number.
+	 *
+	 * @return float
+	 */
+	public function multiply( float $number1, float $number2 ): float {
 		return $number1 * $number2;
 	}
 }
