@@ -7,7 +7,8 @@
   },
   "authors": [
     {
-      "name": "Mainul Hassan Main"
+      "name": "Mainul Hassan Main",
+      "email": "shamim.moeen@gmail.com"
     }
   ],
   "require-dev": {
